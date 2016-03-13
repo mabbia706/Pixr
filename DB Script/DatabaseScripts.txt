@@ -1,0 +1,90 @@
+CREATE TABLE `user` (
+ `Name` text NOT NULL,
+ `Email` varchar(25) NOT NULL,
+ `Password` text NOT NULL,
+ `cover_picture` text NOT NULL,
+ `profile_picture` text NOT NULL,
+ PRIMARY KEY (`Email`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
+CREATE TABLE `picture_data` (
+ `Email` varchar(25) NOT NULL,
+ `image_name` varchar(255) NOT NULL,
+ `image_data` text NOT NULL,
+ `title` text NOT NULL,
+ `description` text NOT NULL,
+ `tags` text NOT NULL,
+ `access_rights` text NOT NULL,
+ PRIMARY KEY (`Email`,`image_name`),
+ KEY `Email` (`Email`),
+ KEY `image_name` (`image_name`),
+ CONSTRAINT `picture_data_ibfk_1` FOREIGN KEY (`Email`) REFERENCES `user` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
+CREATE TABLE `group_members` (
+ `row` int(11) NOT NULL AUTO_INCREMENT,
+ `group_id` int(11) NOT NULL,
+ `member` varchar(25) NOT NULL,
+ PRIMARY KEY (`row`,`group_id`,`member`),
+ KEY `group_id` (`group_id`),
+ KEY `member` (`member`),
+ CONSTRAINT `group_members_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ CONSTRAINT `group_members_ibfk_2` FOREIGN KEY (`member`) REFERENCES `user` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1
+
+CREATE TABLE `group_images` (
+ `row` int(11) NOT NULL AUTO_INCREMENT,
+ `group_id` int(11) NOT NULL,
+ `image_data` varchar(255) NOT NULL,
+ `image_name` varchar(255) NOT NULL,
+ `uploader` varchar(25) NOT NULL,
+ PRIMARY KEY (`row`,`group_id`),
+ KEY `image_name` (`image_name`),
+ KEY `group_images_ibfk_1` (`group_id`),
+ CONSTRAINT `group_images_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=latin1
+
+
+CREATE TABLE `group_albums` (
+ `row` int(11) NOT NULL AUTO_INCREMENT,
+ `group_id` int(11) NOT NULL,
+ `album_title` varchar(255) NOT NULL,
+ `image_name` varchar(255) NOT NULL,
+ `creator` varchar(25) NOT NULL,
+ PRIMARY KEY (`row`,`group_id`),
+ KEY `group_id` (`group_id`),
+ CONSTRAINT `group_albums_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1
+
+CREATE TABLE `group` (
+ `group_id` int(11) NOT NULL AUTO_INCREMENT,
+ `Admin` varchar(25) NOT NULL,
+ `group_name` varchar(255) NOT NULL,
+ `cover_photo` varchar(255) NOT NULL,
+ PRIMARY KEY (`group_id`,`Admin`,`group_name`),
+ UNIQUE KEY `group_name` (`group_name`),
+ KEY `Admin` (`Admin`),
+ CONSTRAINT `group_ibfk_1` FOREIGN KEY (`Admin`) REFERENCES `user` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1
+
+CREATE TABLE `comment` (
+ `row_number` int(11) NOT NULL AUTO_INCREMENT,
+ `Email` varchar(25) NOT NULL,
+ `image_name` varchar(255) NOT NULL,
+ `comment` text NOT NULL,
+ `Email_Commentator` varchar(25) NOT NULL,
+ PRIMARY KEY (`row_number`,`Email`),
+ KEY `image_name` (`image_name`),
+ KEY `Email` (`Email`),
+ CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`Email`) REFERENCES `user` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1
+
+CREATE TABLE `album` (
+ `row_number` int(11) NOT NULL AUTO_INCREMENT,
+ `Email` varchar(25) NOT NULL,
+ `album_title` varchar(255) NOT NULL,
+ `image_name` varchar(255) NOT NULL,
+ PRIMARY KEY (`row_number`,`Email`),
+ KEY `Email` (`Email`),
+ CONSTRAINT `album_ibfk_1` FOREIGN KEY (`Email`) REFERENCES `user` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1

@@ -1,0 +1,9 @@
+1)for getting name of the user.
+use following url
+http://localhost:8080/Project/Pixr/Pixr/PixrService/pixr_service.php?method=method_name&user_email=example@example.com&format=json;
+is method parameter you write getName and in parameter email you give email of the user you want to get name of and in formt you can use json or xml all parameters are necessary
+
+2)for getting picture info of user
+http://localhost:8080/Project/Pixr/Pixr/PixrService/pixr_service.php?method=method_name&user_email=example@example.com&format=json;
+
+is method parameter you write getPhotos and in parameter email you give email of the user you want to get name of and in formt you can use json or xml all parameters are necessary
